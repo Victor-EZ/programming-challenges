@@ -1,14 +1,56 @@
 ﻿using Pitpo;
 
-while (true)
+void Task1()
 {
-    var input = Console.ReadLine().Split(' ');
-    var size = Convert.ToInt32(input[0]);
-    var number = Convert.ToInt32(input[1]);
-    if (size != 0 || number != 0)
+    while (true)
     {
-        LCDdisplay.display(size, number, number.ToString().Length);
-        Console.WriteLine("");
+        var input = Console.ReadLine().Split(' ');
+        var size = Convert.ToInt32(input[0]);
+        var number = Convert.ToInt32(input[1]);
+        if (size != 0 || number != 0)
+        {
+            LcdDisplay.Display(size, number, number.ToString().Length);
+            Console.WriteLine("");
+        }
+        else break;
     }
-    else break;
 }
+
+void Task2()
+{
+    ErdosNum.Start();
+}
+
+void Task3()
+{
+    EncryptionII.Start();
+    /*
+input {
+1
+
+vtz ud xnm xugm itr pyy jttk gmv xt otgm xt xnm puk ti xnm fprxq
+xnm ceoub lrtzv ita hegfd tsmr xnm ypwq ktj
+frtjrpgguvj otvxmdxd prm iev prmvx xnmq
+}
+    output {
+    now is the time for all good men to come to the aid of the party 
+    the quick brown fox jumps over the lazy dog 
+    programming contests are fun arent they
+    }
+     */
+}
+
+void Task4()
+{
+    ShoemakersProblem.Start();
+    /*
+1
+4
+3 4
+1 1000
+2 2
+5 5
+     */
+}
+
+Task4();
