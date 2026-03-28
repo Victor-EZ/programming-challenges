@@ -53,4 +53,14 @@ void Task4()
      */
 }
 
-Task4();
+void Task5()
+{
+    Ones.Start();
+}
+
+void Task6()
+{
+    Counting.Start();
+}
+
+Task6();
