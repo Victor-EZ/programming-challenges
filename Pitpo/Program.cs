@@ -56,11 +56,57 @@ void Task4()
 void Task5()
 {
     Ones.Start();
+    /*
+enter
+3
+7
+9901
+
+res
+3
+6
+12
+
+    */
 }
 
 void Task6()
 {
     Counting.Start();
+    /*
+    enter
+    2
+    3
+
+    result
+    5
+    13
+    */
 }
 
-Task6();
+void Task7()
+{
+    ServicingStations.Start();
+    /*
+     enter
+8 12
+1 2
+1 6
+1 8
+2 3
+2 6
+3 4
+3 5
+4 5
+4 7
+5 6
+6 7
+6 8
+0 0
+
+    result
+    2
+     */
+}
+
+Task7();

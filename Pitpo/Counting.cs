@@ -38,7 +38,6 @@ public class Counting
         };
         for (var i = 3; i < maxN; i++)
         {
-            //следующее значение F(i+1) = 2*F(i) + F(i-1) + F(i-2)
             var nextValue = NextValue(counting[i - 1], counting[i - 2], counting[i - 3]);
             counting.Add(nextValue);
         }

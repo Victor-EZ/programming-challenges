@@ -20,13 +20,11 @@ public static class Ones
     static int MinimalOnes(int n)
     {
         
-        long start = 1; //остаток от деления текущего числа из единиц на n
-        var counter = 1; //количество единиц в текущем числе
+        long start = 1;
+        var counter = 1;
         while (start % n != 0)
         {
-            // Переход к следующему числу: текущее * 10 + 1.
-            // Чтобы избежать переполнения, используем свойства модулярной арифметики:
-            // (prev * 10 + 1) % n = ((prev % n) * (10 % n) + 1) % n.
+        
             start = (start % n) * (10 % n) + 1;
             counter++;
         }
