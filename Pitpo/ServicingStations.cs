@@ -159,7 +159,7 @@ public static class ServicingStations
     // Разбивает граф на компоненты связности и суммирует размеры минимальных доминирующих множеств каждой компоненты.
     // graph Исходный граф (список смежности)
     // Общий размер минимального доминирующего множества
-    private static int ServicingStations(List<List<int>> graph)
+    private static int Servicing(List<List<int>> graph)
     {
         var total = 0;
         // Создаём копию для манипуляций
@@ -256,7 +256,7 @@ public static class ServicingStations
                 graph[y].Add(x);
             }
 
-            var result = ServicingStations(graph);
+            var result = Servicing(graph);
             Console.WriteLine(result);
         }
     }
