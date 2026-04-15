@@ -4,8 +4,7 @@ public static class Ones
 {
     public static void Start()
     {
-        string line;
-        while ((line = Console.ReadLine()) != null)
+        while (Console.ReadLine() is { } line)
         {
             var tokens = line.Split([' ', '\t'], StringSplitOptions.RemoveEmptyEntries);
             foreach (var token in tokens)
@@ -16,8 +15,8 @@ public static class Ones
             }
         }
     }
-    
-    static int MinimalOnes(int n)
+
+    private static int MinimalOnes(int n)
     {
         
         long start = 1;

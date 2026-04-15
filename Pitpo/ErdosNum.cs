@@ -7,11 +7,10 @@ public static class ErdosNum
         public required string Name { get; init; }
         public int Number { get; init; }
     }
-
-
+    
     private static readonly List<ErdosNumber> Erdos = [];
     private static readonly List<string> Authors = []; // строки авторов из статей
-    private static readonly Dictionary<string, int> Exist = new Dictionary<string, int>();
+    private static readonly Dictionary<string, int> Exist = new();
     private static readonly List<bool> Processed = [];
 
     // Разбирает строку с авторами (часть до двоеточия) и возвращает список имён
@@ -21,7 +20,6 @@ public static class ErdosNum
         // ["Erdos", " P.", " Smith", " J."]
         var parts = authorLine.Split(',');
         var result = new List<string>();
-
         for (var i = 0; i < parts.Length; i += 2)
         {
             var lastName = parts[i].Trim(); // "Erdos"
@@ -29,7 +27,6 @@ public static class ErdosNum
             var fullName = lastName + ", " + initials; // "Erdos, P."
             result.Add(fullName);
         }
-
         return result;
     }
 
@@ -50,23 +47,18 @@ public static class ErdosNum
     {
         Erdos.Clear();
         Exist.Clear();
-
         // Начальное значение: сам Эрдёш
         Erdos.Add(new ErdosNumber { Name = "Erdos, P.", Number = 0 });
         Exist["Erdos, P."] = 0;
-
         Processed.Clear();
         Processed.AddRange(Enumerable.Repeat(false, Authors.Count));
-
         int begin = 0, end = 0; // границы текущего слоя в массиве erdos
-
         while (true)
         {
             // Просматриваем все ещё не обработанные статьи
             for (var i = 0; i < Authors.Count; i++)
             {
                 if (Processed[i]) continue;
-
                 // Ищем, есть ли в статье автор из текущего слоя
                 for (var j = begin; j <= end; j++)
                 {
@@ -77,11 +69,9 @@ public static class ErdosNum
                     break;
                 }
             }
-
             // Если за проход не добавилось ни одного нового автора – выходим
             if (end == Erdos.Count - 1)
                 break;
-
             // Иначе переходим к следующему слою
             begin = end + 1;
             end = Erdos.Count - 1;
@@ -91,13 +81,11 @@ public static class ErdosNum
     public static void Start()
     {
         var scenario = int.Parse(Console.ReadLine()!);
-
         for (var s = 1; s <= scenario; s++)
         {
             var firstLine = Console.ReadLine()!.Split();
             var p = int.Parse(firstLine[0]);
             var n = int.Parse(firstLine[1]);
-
             Authors.Clear();
             for (var i = 0; i < p; i++)
             {
@@ -106,9 +94,7 @@ public static class ErdosNum
                 var authorPart = line.Substring(0, colonPos);
                 Authors.Add(authorPart);
             }
-
             CalculateErdosNumbers();
-
             Console.WriteLine($"Scenario {s}");
             for (var i = 0; i < n; i++)
             {

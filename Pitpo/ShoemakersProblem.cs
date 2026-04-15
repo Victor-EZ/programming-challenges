@@ -23,7 +23,6 @@ public static class ShoemakersProblem
                 orders[i].Fine = int.Parse(parts[1]);
                 orders[i].Index = i + 1;
             }
-
             //Сравниваем штраф за количество дней
             Array.Sort(orders, (x, y) =>
             {
@@ -31,8 +30,7 @@ public static class ShoemakersProblem
                 var lhs = (long)x.Days * y.Fine;
                 var rhs = (long)y.Days * x.Fine;
                 if (lhs < rhs) return -1;
-                if (lhs > rhs) return 1;
-                return 0; //При равенстве порядок не важен
+                return lhs > rhs ? 1 : 0; //При равенстве порядок не важен
             });
             Console.WriteLine(string.Join(" ", orders.Select(o => o.Index)));
             if (t < blocks - 1) Console.WriteLine(); //Пустая строка между блоками

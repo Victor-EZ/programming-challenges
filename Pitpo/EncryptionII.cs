@@ -9,11 +9,10 @@ public static class EncryptionII
         for (var i = 0; i < blocks; i++)
         {
             var encrypted = new List<List<string>>();
-            string line;
-            while ((line = Console.ReadLine()) != null && line.Length > 0)
+            while (Console.ReadLine() is { Length: > 0 } line)
             {
                 var words = line.Split([' '], StringSplitOptions.RemoveEmptyEntries);
-                encrypted.Add(new List<string>(words));
+                encrypted.Add([..words]);
             }
             
             Decipher(encrypted);
@@ -27,20 +26,11 @@ public static class EncryptionII
         foreach (var line in encrypted)
         {
             if (line.Count != plainWords.Length) continue;
-            
-            var lengthsOk = true;
-            for (var i = 0; i < plainWords.Length; i++)
-            {
-                if (line[i].Length == plainWords[i].Length) continue;
-                lengthsOk = false;
-                break;
-            }
+            var lengthsOk = !plainWords.Where((t, i) => line[i].Length != t.Length).Any();
             if (!lengthsOk) continue;
-
             var forward = new char[26];
             var backward = new char[26];
             var mappingOk = true;
-
             for (var i = 0; i < plainWords.Length; i++)
             {
                 var cipherWord = line[i];
@@ -51,7 +41,6 @@ public static class EncryptionII
                     var plainChar = plainWord[j];
                     var ci = cipherChar - 'a';
                     var pi = plainChar - 'a';
-                    
                     if (forward[ci] == '\0' && backward[pi] == '\0')
                     {
                         forward[ci] = plainChar;
@@ -65,7 +54,6 @@ public static class EncryptionII
                 }
                 if (!mappingOk) break;
             }
-            
             if (!mappingOk) continue;
             foreach (var lineToPrint in encrypted)
             {

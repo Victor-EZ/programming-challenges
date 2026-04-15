@@ -4,32 +4,22 @@ public class UnidirectionalTSP
 {
     public static void Start()
     {
-        string line;
-        // Читаем входные данные до конца файла
-        while ((line = Console.ReadLine()) != null)
+        while (Console.ReadLine() is { } line)
         {
-            // Пропускаем пустые строки
-            if (string.IsNullOrWhiteSpace(line))
-                continue;
+            if (string.IsNullOrWhiteSpace(line)) continue; // Пропускаем пустые строки
 
             // Разбираем размеры матрицы: m строк, n столбцов
-            var parts = line.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
-            if (parts.Length < 2)
-                continue;
-
-            if (!int.TryParse(parts[0], out var m) || !int.TryParse(parts[1], out var n))
-                continue;
-
-            // Читаем матрицу размером m x n
+            var parts = line.Split([' ', '\t'], StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length < 2) continue;
+            if (!int.TryParse(parts[0], out var m) || !int.TryParse(parts[1], out var n)) continue;
             var matrix = new int[m, n];
             for (var i = 0; i < m; i++)
             {
-                // Читаем строку с числами (может быть разбита на несколько строк, но в задаче обычно одна строка на строку матрицы)
-                var rowValues = Console.ReadLine()?.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                // Читаем строку с числами
+                var rowValues = 
+                    Console.ReadLine()?.Split([' ', '\t'], StringSplitOptions.RemoveEmptyEntries);
                 if (rowValues == null || rowValues.Length < n)
                 {
-                    // Если строка не содержит всех n чисел, пытаемся дочитать недостающие
-                    // Но для простоты считаем, что данные корректны
                     i--; // повторить попытку
                     continue;
                 }
@@ -38,16 +28,13 @@ public class UnidirectionalTSP
                     matrix[i, j] = int.Parse(rowValues[j]);
                 }
             }
-
-            // Таблица DP: dp[i, j] – минимальная сумма пути от (i, j) до последнего столбца
-            var dp = new int[m, n];
-            // Таблица nextRow[i, j] – номер строки следующей клетки на оптимальном пути
-            var nextRow = new int[m, n];
+            
+            var dp = new int[m, n]; // Минимальная сумма пути от (m, n) до последнего столбца
+            var nextRow = new int[m, n]; // Номер строки следующей клетки на оптимальном пути
 
             // Инициализируем dp большими значениями
             for (var i = 0; i < m; i++)
-                for (var j = 0; j < n; j++)
-                    dp[i, j] = int.MaxValue;
+                for (var j = 0; j < n; j++) dp[i, j] = int.MaxValue;
 
             // Последний столбец: стоимость пути равна значению клетки
             for (var i = 0; i < m; i++)
@@ -65,17 +52,13 @@ public class UnidirectionalTSP
                     var up = (i - 1 + m) % m;
                     var down = (i + 1) % m;
                     int[] candidates = { up, i, down };
-                    // Сортируем для лексикографически минимального пути при равной стоимости
-                    Array.Sort(candidates);
-
+                    Array.Sort(candidates); // Сортируем для лексикографически минимального пути при равной стоимости
                     foreach (var r in candidates)
                     {
                         var cost = dp[r, j + 1] + matrix[i, j];
-                        if (cost < dp[i, j])
-                        {
-                            dp[i, j] = cost;
-                            nextRow[i, j] = r;
-                        }
+                        if (cost >= dp[i, j]) continue;
+                        dp[i, j] = cost;
+                        nextRow[i, j] = r;
                     }
                 }
             }
@@ -85,11 +68,9 @@ public class UnidirectionalTSP
             var startRow = 0;
             for (var i = 0; i < m; i++)
             {
-                if (dp[i, 0] < minCost)
-                {
-                    minCost = dp[i, 0];
-                    startRow = i;
-                }
+                if (dp[i, 0] >= minCost) continue;
+                minCost = dp[i, 0];
+                startRow = i;
             }
 
             // Восстанавливаем путь
@@ -100,10 +81,8 @@ public class UnidirectionalTSP
                 path.Add(curRow + 1); // переводим в 1-индексацию для вывода
                 curRow = nextRow[curRow, j];
             }
-
-            // Выводим путь
+            
             Console.WriteLine(string.Join(" ", path));
-            // Выводим минимальную стоимость
             Console.WriteLine(minCost);
         }
     }

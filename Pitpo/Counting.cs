@@ -1,25 +1,22 @@
 using System.Text;
 namespace Pitpo;
 
-public class Counting
+public static class Counting
 {
     public static void Start()
     {
         //Предварительно вычисляем все значения F(n) для n от 1 до 1000
         var counting = InitializeCounting();
-        string line;
-        while ((line = Console.ReadLine()) != null)
+        while (Console.ReadLine() is { } line)
         {
-            var parts = line.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+            var parts = line.Split([' ', '\t'], StringSplitOptions.RemoveEmptyEntries);
             foreach (var part in parts)
             {
-                if (int.TryParse(part, out var n) && n is >= 1 and <= 1000)
-                {
-                    var result = counting[n - 1]; //Выводим F(n) в правильном порядке
-                    var chars = result.ToCharArray();
-                    Array.Reverse(chars); //Переворачиваем строку, так как она хранится в обратном порядке
-                    Console.WriteLine(new string(chars));
-                }
+                if (!int.TryParse(part, out var n) || n is < 1 or > 1000) continue;
+                var result = counting[n - 1]; //Выводим F(n) в правильном порядке
+                var chars = result.ToCharArray();
+                Array.Reverse(chars); //Переворачиваем строку, так как она хранится в обратном порядке
+                Console.WriteLine(new string(chars));
             }
         }
     }
@@ -51,9 +48,9 @@ public class Counting
         // Сначала вычисляем 2*a (удвоение числа a)
         var doubledA = new StringBuilder();
         var carry = 0;
-        for (var i = 0; i < a.Length; i++)
+        foreach (var t in a)
         {
-            var digit = a[i] - '0';
+            var digit = t - '0';
             var sum = carry + digit * 2;
             carry = sum / 10;
             doubledA.Append((char)('0' + sum % 10));

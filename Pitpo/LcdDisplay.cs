@@ -2,8 +2,21 @@ namespace Pitpo;
 
 public static class LcdDisplay
 {
-    //private const int MaxLength = 8;
-
+    public static void Start()
+    {
+        while (true)
+        {
+            var input = Console.ReadLine()!.Split(' ');
+            var size = Convert.ToInt32(input[0]);
+            var number = Convert.ToInt32(input[1]);
+            if (size != 0 || number != 0)
+            {
+                Display(size, number, number.ToString().Length);
+                Console.WriteLine("");
+            }
+            else break;
+        }
+    }
     private static readonly string[,] Result = new [,]
     {
         { " - ", "   ", " - ", " - ", "   ", " - ", " - ", " - ", " - ", " - " },
@@ -31,9 +44,12 @@ public static class LcdDisplay
             for (var i = 0; i < maxLength; i++)
             {
                 if (numbers[i] == -1) continue;
-                var line = "";
-                if (row == 1) line = Result[0, numbers[i]];
-                if (2 <= row && row < (size + 2)) line = Result[1, numbers[i]];
+                var line = row switch
+                {
+                    1 => Result[0, numbers[i]],
+                    >= 2 when row < (size + 2) => Result[1, numbers[i]],
+                    _ => ""
+                };
                 if (row == (size+2)) line = Result[2, numbers[i]];
                 if ((size + 3) <= row && row <= (2*size + 2)) line = Result[3, numbers[i]];
                 if (row == (2 * size + 3)) line = Result[4, numbers[i]];
