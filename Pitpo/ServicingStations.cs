@@ -10,14 +10,11 @@ public static class ServicingStations
     private static ulong _originTag;           // Маска уже покрытых вершин (от удалённых вершин)
     
     // Проверяет, является ли выбранное подмножество вершин доминирующим множеством
-    // flag Массив индексов выбранных вершин в списке _edges
-    // position Количество выбранных вершин
     private static void Check(int[] flag, int position)
     {
         var idx = 0;
         var newTag = _originTag;
         var oldTag = _originTag;
-
         for (var i = 0; i < _edges.Count; i++)
         {
             if (idx >= position || flag[idx] != i) continue;
@@ -25,23 +22,18 @@ public static class ServicingStations
             if (newTag > oldTag)
                 oldTag = newTag;
             else
-                return;    // Нет прогресса – бесполезная комбинация
+                return;
             idx++;
         }
-
         if (newTag != _targetTag) return;
         _minimum = idx;
         _finish = true;
     }
     
     // Генерирует подмножества вершин в лексикографическом порядке
-    // flag Массив индексов выбранных вершин
-    // position Текущая глубина (количество выбранных вершин)
-    // positions Общее количество вершин, которое должно быть выбрано
     private static void Generate(int[] flag, int position, int positions)
     {
         if (_finish) return;
-
         if (position < positions)
         {
             if (position == 0)
@@ -67,7 +59,7 @@ public static class ServicingStations
         }
     }
     
-    // Перебирает все подмножества вершин, начиная с наименьшего размера, для поиска минимального доминирующего множества.
+    // Перебирает все подмножества вершин для поиска минимального доминирующего множества
     private static void EnumerateSubsets()
     {
         for (var i = 1; i <= _edges.Count; i++)
@@ -79,7 +71,7 @@ public static class ServicingStations
         }
     }
     
-    // Функция сравнения для сортировки битовых масок по убыванию (чем больше единиц, тем выше приоритет).
+    // Функция сравнения для сортировки битовых масок по убыванию
     private static int CompareEdges(ulong x, ulong y)
     {
         return y.CompareTo(x);
@@ -100,7 +92,7 @@ public static class ServicingStations
         // Предварительная обработка: изолированные вершины и висячие вершины
         for (var i = 0; i < n; i++)
         {
-            if (graph[i].Count == 0)   // изолированная вершина
+            if (graph[i].Count == 0)
             {
                 baseCount++;
                 _originTag |= (1UL << i);
@@ -136,7 +128,6 @@ public static class ServicingStations
 
         // Сортировка масок: сначала те, у которых больше битов (степень вершины)
         _edges.Sort(CompareEdges);
-
         _minimum = 0;
         _finish = false;
         EnumerateSubsets();
@@ -154,7 +145,6 @@ public static class ServicingStations
         for (var v = 0; v < n; v++)
         {
             if (visited[v]) continue;
-
             // BFS для выделения компоненты связности
             var queue = new Queue<int>();
             queue.Enqueue(v);
@@ -176,7 +166,7 @@ public static class ServicingStations
             var reindex = new Dictionary<int, int>();
             for (var i = 0; i < componentVertices.Count; i++)
                 reindex[componentVertices[i]] = i;
-
+            
             var subGraph = new List<List<int>>();
             foreach (var originalVertex in componentVertices)
             {
@@ -196,7 +186,7 @@ public static class ServicingStations
 
     public static void Start()
     {
-        while (Console.ReadLine()! is { } line)
+        while (Console.ReadLine() is { } line)
         {
             var parts = line.Split();
             var n = int.Parse(parts[0]);

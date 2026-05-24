@@ -159,4 +159,49 @@ result
      */
 }
 
-Task7();
+void Task9()
+{
+    EditStepsLadders.Start();
+    /*
+enter
+cat
+dig dog
+fig
+fin
+fine
+fog
+log
+wine
+stop
+
+result
+5      
+     */
+}
+
+void Task10()
+{
+    TheGrandDinner.Start();
+    /*
+enter
+4 5
+4 5 3 5
+3 5 2 6 4
+
+4 5
+4 5 3 5
+3 5 2 6 3
+0 0
+
+result
+1
+1 2 4 5
+1 2 3 4 5
+2 4 5
+1 2 3 4 5
+
+0
+     */
+}
+
+Task10();

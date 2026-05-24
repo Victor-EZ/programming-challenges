@@ -1,6 +1,6 @@
 namespace Pitpo;
 
-public class UnidirectionalTSP
+public static class UnidirectionalTSP
 {
     public static void Start()
     {
